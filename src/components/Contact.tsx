@@ -6,7 +6,7 @@ export default function Contact() {
   return (
     <div className='w-full max-w-4xl mx-auto text-center space-y-12 py-10'>
       <div className='space-y-4'>
-        <h2 className='text-5xl font-black text-white uppercase italic'>
+        <h2 className='text-3xl md:text-5xl font-black text-white uppercase italic'>
           Inicia una <span className='text-violet-500'>Colaboración</span>
         </h2>
         <p className='text-slate-400 text-lg font-light max-w-2xl mx-auto'>

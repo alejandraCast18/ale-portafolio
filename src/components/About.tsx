@@ -17,21 +17,22 @@ const sections = [
     title: 'MI COMPROMISO: ENTRE RETOS Y CREATIVIDAD',
     text: `Disfruto trabajar en equipo, enfrentar retos que me desafíen y siempre buscar soluciones que superen expectativas. Amo experimentar con nuevas ideas, sobre todo en juegos 2D, para ofrecer experiencias memorables.`,
   },
- {
-  title: 'GRACIAS POR PASAR POR AQUÍ',
-  text: (
-    <>
-      Tu tiempo es valioso, y me alegra que lo hayas compartido conmigo. Espero que disfrutes mi portafolio tanto como yo disfruto crearlo.{' '}
-      <motion.img
-        src="/rocket.png"
-        alt="Rocket"
-        className="inline-block w-7 h-7 align-middle"
-        animate={{ y: [0, -10, 0] }}
-        transition={{ repeat: Infinity, duration: 1 }}
-      />
-    </>
-  ),
-}
+  {
+    title: 'GRACIAS POR PASAR POR AQUÍ',
+    text: (
+      <>
+        Tu tiempo es valioso, y me alegra que lo hayas compartido conmigo.
+        Espero que disfrutes mi portafolio tanto como yo disfruto crearlo.{' '}
+        <motion.img
+          src='/rocket.png'
+          alt='Rocket'
+          className='inline-block w-7 h-7 align-middle'
+          animate={{ y: [0, -10, 0] }}
+          transition={{ repeat: Infinity, duration: 1 }}
+        />
+      </>
+    ),
+  },
 ]
 
 export default function About() {
@@ -59,18 +60,37 @@ export default function About() {
   return (
     <section className='relative w-full min-h-screen py-20 px-6 overflow-hidden'>
       <div className='max-w-7xl mx-auto flex flex-col md:flex-row justify-center items-center gap-16 relative'>
-        <div className=' z-20 w-64 md:w-80 h-96 md:h-128'>
-          <div className='relative w-full h-full rounded-xl overflow-hidden border border-cyan-500/30 shadow-[0_0_40px_rgba(34,211,238,0.2)]'>
+        {/* FOTO CON EFECTO FLOTANTE Y BRILLO */}
+        <motion.div
+          className='z-20 w-64 md:w-80 h-96 md:h-128 cursor-pointer'
+          animate={{ y: [0, -15, 0] }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+          whileHover={{ scale: 1.02 }}
+        >
+          <motion.div
+            className='relative w-full h-full rounded-xl overflow-hidden border border-cyan-500/30'
+            initial={{ boxShadow: '0 0 20px rgba(34,211,238,0.2)' }}
+            whileHover={{
+              boxShadow: '0 0 40px rgba(34,211,238,0.7)',
+              borderColor: 'rgba(34,211,238,0.6)',
+            }}
+            transition={{ duration: 0.3 }}
+          >
             <Image
               src='/2.jpg'
               alt='Ale'
               fill
-              className='object-cover rounded-xl grayscale transition-all duration-1000 hover:grayscale-0'
+              className='object-cover rounded-xl grayscale transition-all duration-700 hover:grayscale-0'
               priority
             />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
+        {/* TU DESCRIPCIÓN ORIGINAL INTEGRAL */}
         <motion.div
           initial={{ opacity: 0, x: -120, scale: 0.9 }}
           whileInView={{ opacity: 1, x: 0, scale: 1 }}
@@ -107,7 +127,7 @@ export default function About() {
             <div className='relative z-10 space-y-6'>
               {sections.map((section, i) => (
                 <div key={i}>
-                  <h3 className='text-md text-cyan-400 font-mono tracking-widest uppercase mb-2 h-6'>
+                  <h3 className='text-md text-cyan-400 font-mono tracking-widest uppercase mb-2'>
                     {sectionIndex === i ? typedTitle : section.title}
                     {sectionIndex === i && (
                       <span className='animate-pulse'>|</span>

@@ -1,35 +1,13 @@
 'use client'
 
 import { useEffect } from 'react'
-import { motion } from 'framer-motion'
 import Hero from '@/components/Hero'
-import ProjectCard from '@/components/ProjectCard'
 import SectorWrapper from '@/components/SectorWrapper'
 import About from '@/components/About'
 import Contact from '@/components/Contact'
 import OrbitalNavbar from '@/components/OrbitalNavbar'
 import StackPhysics from '@/components/StackPhysics'
-
-const PROJECTS = [
-  {
-    id: '01',
-    title: 'Nebula UI',
-    description: 'Sistema de componentes con React y Tailwind.',
-    tech: ['Next.js', 'TypeScript'],
-  },
-  {
-    id: '02',
-    title: 'Stellar App',
-    description: 'Dashboard interactivo con diseño limpio.',
-    tech: ['Framer Motion', 'Lottie'],
-  },
-  {
-    id: '03',
-    title: 'Void Engine',
-    description: 'Optimización de procesos de renderizado.',
-    tech: ['Three.js', 'WebGL'],
-  },
-]
+import ProjectsSection from '@/components/Projects'
 
 export default function Home() {
   useEffect(() => {
@@ -52,52 +30,28 @@ export default function Home() {
         </SectorWrapper>
 
         {/* SECCIÓN SOBRE MÍ */}
-        <SectorWrapper
-          id='about'
-          message='Accediendo al perfil profesional de Alejandra Chacón...'
-        >
+        <SectorWrapper id='about' message='Accediendo al perfil profesional...'>
           <About />
         </SectorWrapper>
 
-        {/* SECCIÓN PROYECTOS */}
+        {/* SECCIÓN STACK (FÍSICAS) */}
+        <SectorWrapper
+          id='stack'
+          message='Cargando motor de física Matter.js...'
+        >
+          <StackPhysics />
+        </SectorWrapper>
+
+        {/* SECCIÓN PROYECTOS (CARRUSEL 3D) */}
         <SectorWrapper
           id='projects'
-          message='Escaneando misiones de extremo a extremo... Calidad óptima detectada.'
+          message='Escaneando misiones... Calidad óptima detectada.'
         >
-          <SectorWrapper
-            id='stack'
-            message='Cargando motor de física Matter.js... Entorno interactivo listo.'
-          >
-            <StackPhysics />
-          </SectorWrapper>
-          <div className='flex flex-col items-center w-full pt-20 pb-20'>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className='text-center mb-24'
-            >
-              <h2 className='text-6xl font-black tracking-tighter text-white uppercase italic'>
-                Misiones{' '}
-                <span className='text-violet-500 text-5xl not-italic'>
-                  Ejecutadas
-                </span>
-              </h2>
-            </motion.div>
-
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-10 w-full max-w-7xl px-4'>
-              {PROJECTS.map((project) => (
-                <ProjectCard key={project.id} {...project} />
-              ))}
-            </div>
-          </div>
+          <ProjectsSection />
         </SectorWrapper>
 
         {/* SECCIÓN CONTACTO */}
-        <SectorWrapper
-          id='contact'
-          message='Terminal de comunicación lista. Esperando entrada de datos...'
-        >
+        <SectorWrapper id='contact' message='Terminal de comunicación lista...'>
           <Contact />
         </SectorWrapper>
       </main>
