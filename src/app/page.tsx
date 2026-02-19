@@ -1,55 +1,77 @@
 'use client'
 
+import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Hero from '@/components/Hero'
 import ProjectCard from '@/components/ProjectCard'
 import SectorWrapper from '@/components/SectorWrapper'
 import About from '@/components/About'
 import Contact from '@/components/Contact'
+import OrbitalNavbar from '@/components/OrbitalNavbar'
+import StackPhysics from '@/components/StackPhysics'
 
 const PROJECTS = [
   {
     id: '01',
     title: 'Nebula UI',
-    description: 'Sistema de componentes con React y Tailwind enfocado en la simplicidad y el minimalismo.',
+    description: 'Sistema de componentes con React y Tailwind.',
     tech: ['Next.js', 'TypeScript'],
   },
   {
     id: '02',
     title: 'Stellar App',
-    description: 'Dashboard interactivo con un diseño limpio y funcional para el manejo de datos complejos.',
+    description: 'Dashboard interactivo con diseño limpio.',
     tech: ['Framer Motion', 'Lottie'],
   },
   {
     id: '03',
     title: 'Void Engine',
-    description: 'Optimización de procesos de renderizado para visualizaciones de alto impacto y performance.',
+    description: 'Optimización de procesos de renderizado.',
     tech: ['Three.js', 'WebGL'],
   },
 ]
 
 export default function Home() {
+  useEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual'
+    }
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
-    <main className='relative z-10 bg-transparent'>
-      
-      {/* SECTOR 01: HOME */}
-      <section id="home">
+    <>
+      <OrbitalNavbar />
+      <main className='relative z-10 bg-transparent m-0 p-0'>
+        {/* SECCIÓN INICIO */}
         <SectorWrapper
-          id='hero'
+          id='home'
           message='Secuencia de inicio completada. Bienvenida, Alejandra.'
         >
           <Hero />
         </SectorWrapper>
-      </section>
 
-      {/* SECTOR 02: PROYECTOS (Ubicado después del Hero para impacto inmediato) */}
-      <section id="projects">
+        {/* SECCIÓN SOBRE MÍ */}
         <SectorWrapper
-          id='proyectos-sector'
+          id='about'
+          message='Accediendo al perfil profesional de Alejandra Chacón...'
+        >
+          <About />
+        </SectorWrapper>
+
+        {/* SECCIÓN PROYECTOS */}
+        <SectorWrapper
+          id='projects'
           message='Escaneando misiones de extremo a extremo... Calidad óptima detectada.'
         >
-          <div className='flex flex-col items-center w-full'>
-            <motion.div 
+          <SectorWrapper
+            id='stack'
+            message='Cargando motor de física Matter.js... Entorno interactivo listo.'
+          >
+            <StackPhysics />
+          </SectorWrapper>
+          <div className='flex flex-col items-center w-full pt-20 pb-20'>
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -61,7 +83,6 @@ export default function Home() {
                   Ejecutadas
                 </span>
               </h2>
-              <div className='h-0.5 w-32 bg-linear-to-r from-violet-500 to-transparent mx-auto mt-4' />
             </motion.div>
 
             <div className='grid grid-cols-1 md:grid-cols-3 gap-10 w-full max-w-7xl px-4'>
@@ -71,28 +92,15 @@ export default function Home() {
             </div>
           </div>
         </SectorWrapper>
-      </section>
 
-      {/* SECTOR 03: SOBRE MÍ */}
-      <section id="about">
+        {/* SECCIÓN CONTACTO */}
         <SectorWrapper
-          id='sobre-mi'
-          message='Accediendo al perfil profesional de Alejandra Chacón...'
-        >
-          <About />
-        </SectorWrapper>
-      </section>
-
-      {/* SECTOR 04: CONTACTO */}
-      <section id="contact">
-        <SectorWrapper
-          id='contacto'
+          id='contact'
           message='Terminal de comunicación lista. Esperando entrada de datos...'
         >
           <Contact />
         </SectorWrapper>
-      </section>
-
-    </main>
+      </main>
+    </>
   )
 }

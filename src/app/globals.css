@@ -1,28 +1,24 @@
 @import 'tailwindcss';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 0px;
+  margin: 0;
+  padding: 0;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 @keyframes scanline {
@@ -36,4 +32,9 @@ body {
 
 .animate-scanline {
   animation: scanline 3s linear infinite;
+}
+
+.first-section-reset {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
 }

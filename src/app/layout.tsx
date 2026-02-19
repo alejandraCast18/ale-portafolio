@@ -1,14 +1,19 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Dancing_Script } from 'next/font/google'
 import './globals.css'
-import Navbar from '@/components/Navbar'
 import SparklesCore from '@/components/SparklesCore'
+import { ThemeProvider } from '@/context/ThemeContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
+const dancing = Dancing_Script({
+  subsets: ['latin'],
+  weight: ['400', '600'],
+  variable: '--font-signature',
+})
+
 export const metadata: Metadata = {
-  title: 'Ale Dev | Space Portfolio',
-  description: 'Una aventura espacial a través de mis proyectos',
+  title: 'Ale Dev | Mi Portfolio',
 }
 
 export default function RootLayout({
@@ -17,30 +22,27 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang='es'>
+    <html lang='es' className='scroll-smooth'>
       <body
-        className={`${inter.className} bg-slate-950 text-white antialiased overflow-x-hidden`}
+        className={`${inter.className} ${dancing.variable} bg-black text-white antialiased overflow-x-hidden m-0 p-0`}
       >
+        <ThemeProvider>
+          {/* 🌌 Fondo galaxia */}
+          <div className='fixed inset-0 z-0 pointer-events-none'>
+            <SparklesCore
+              minSize={0.6}
+              maxSize={1.4}
+              particleDensity={120}
+              className='w-full h-full'
+              particleColor='#FFFFFF'
+            />
+          </div>
 
-        {/* FONDO ESPACIAL FIJO */}
-        <div className='fixed inset-0 z-0'>
-          <SparklesCore
-            id='tsparticlesfullpage'
-            background='transparent'
-            minSize={0.6}
-            maxSize={1.4}
-            particleDensity={100}
-            className='w-full h-full'
-            particleColor='#FFFFFF'
-            speed={0.5}
-          />
-        </div>
-
-        {/* CONTENIDO DE LA APP */}
-        <div className='relative z-10'>
-          <Navbar />
-          <main className='pt-20'>{children}</main>
-        </div>
+          {/* 📦 Contenido */}
+          <div className='relative z-10'>
+            <main className='m-0 p-0'>{children}</main>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   )
