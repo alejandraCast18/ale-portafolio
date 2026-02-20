@@ -2,11 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import {
-  FiChevronLeft,
-  FiChevronRight,
-  FiExternalLink,
-} from 'react-icons/fi'
+import { FiChevronLeft, FiChevronRight, FiExternalLink } from 'react-icons/fi'
 
 const PROJECTS = [
   {
@@ -48,12 +44,15 @@ export default function ProjectsSection() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className='text-center mb-10 md:mb-20 group px-4'
+        className='text-center mb-10 md:mb-20 group px-4 cursor-default'
       >
-        <h2 className='text-4xl md:text-8xl font-black text-cyan-400 uppercase tracking-tighter transition-all duration-300 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] group-hover:drop-shadow-[0_0_40px_rgba(34,211,238,1)]'>
-          Misiones{' '}
-          <span className='italic font-light opacity-80 text-3xl md:text-7xl'>
-            Ejecutadas
+        <h2 className='text-4xl md:text-7xl font-black tracking-tighter uppercase leading-tight'>
+          <span
+            className='text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]
+                 transition-all duration-300
+                 group-hover:drop-shadow-[0_0_40px_rgba(34,211,238,1)]'
+          >
+            Misiones Ejecutadas
           </span>
         </h2>
       </motion.div>

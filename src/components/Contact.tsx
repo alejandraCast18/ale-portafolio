@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { FiMail, FiMapPin, FiSend, FiDownload } from 'react-icons/fi'
+import { FiMail, FiMapPin, FiSend } from 'react-icons/fi'
 
 export default function Contact() {
   const email = 'alejcast18@gmail.com'
@@ -14,7 +14,6 @@ export default function Contact() {
 
   const mailtoUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`
 
-  // Datos para las cards, definidos localmente para evitar errores de referencia
   const contactInfo = [
     {
       id: 1,
@@ -33,7 +32,6 @@ export default function Contact() {
   return (
     <section className='w-full py-16 md:py-24 px-6 relative flex items-center justify-center min-h-screen bg-transparent'>
       <div className='max-w-5xl mx-auto text-center space-y-12 md:space-y-20 relative z-10 w-full'>
-        {/* Título */}
         <div className='space-y-4'>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -46,12 +44,8 @@ export default function Contact() {
               Colaboración
             </span>
           </motion.h2>
-          <p className='text-cyan-400/50 text-[10px] md:text-xs font-mono tracking-[0.4em] uppercase'>
-            &gt; Transmisión estelar lista_
-          </p>
         </div>
 
-        {/* Cards de Cristal */}
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 text-left w-full'>
           {contactInfo.map((card) => (
             <motion.div
@@ -92,7 +86,6 @@ export default function Contact() {
           ))}
         </div>
 
-        {/* Botones Cyber-Edge */}
         <div className='flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 px-4'>
           <motion.a
             href={mailtoUrl}
@@ -119,37 +112,6 @@ export default function Contact() {
             </div>
             <div className='absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity' />
           </motion.a>
-
-          <motion.button className='relative group w-full md:w-auto px-10 py-5 bg-transparent border-x border-cyan-500/40 overflow-hidden text-center'>
-            <motion.span
-              animate={{ x: ['-100%', '100%'] }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: 'linear',
-                delay: 0.5,
-              }}
-              className='absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-cyan-400 to-transparent'
-            />
-            <motion.span
-              animate={{ x: ['100%', '-100%'] }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: 'linear',
-                delay: 0.5,
-              }}
-              className='absolute bottom-0 left-0 w-full h-px bg-linear-to-r from-transparent via-cyan-400 to-transparent'
-            />
-
-            <div className='flex items-center justify-center gap-4 text-white/50 group-hover:text-cyan-400 transition-all'>
-              <FiDownload size={18} />
-              <span className='font-black uppercase tracking-[0.3em] text-[10px] md:text-xs'>
-                Descargar CV_Archivo
-              </span>
-            </div>
-            <div className='absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity' />
-          </motion.button>
         </div>
       </div>
     </section>
