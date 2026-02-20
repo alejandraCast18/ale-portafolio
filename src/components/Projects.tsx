@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   FiChevronLeft,
   FiChevronRight,
-  FiGithub,
   FiExternalLink,
 } from 'react-icons/fi'
 
@@ -13,20 +12,17 @@ const PROJECTS = [
   {
     id: '01',
     video: '/videos/dorta.mp4',
-    github: 'https://github.com/RaulRangelxD/dorta',
     link: 'https://dorta.vercel.app/',
   },
   {
     id: '02',
     video: '/videos/cunaguaros.mp4',
-    github: 'https://github.com/alejandraCast18/portfolio#',
     link: 'https://portfolio-cunaguarosdev.vercel.app/',
   },
   {
     id: '03',
     title: 'VOID ENGINE',
     video: '/videos/p3.mp4',
-    github: '#',
     link: '#',
   },
 ]
@@ -37,7 +33,7 @@ export default function ProjectsSection() {
 
   useEffect(() => {
     const checkRes = () => setIsMobile(window.innerWidth < 768)
-    checkRes() // Chequeo inicial
+    checkRes()
     window.addEventListener('resize', checkRes)
     return () => window.removeEventListener('resize', checkRes)
   }, [])
@@ -103,14 +99,6 @@ export default function ProjectsSection() {
                       {project.title}
                     </h3>
                     <div className='flex gap-3 md:gap-4'>
-                      <a
-                        href={project.github}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        className='p-2 md:p-3 bg-white/10 hover:bg-cyan-500 rounded-full transition-colors'
-                      >
-                        <FiGithub className='text-lg md:text-2xl' />
-                      </a>
                       <a
                         href={project.link}
                         target='_blank'
