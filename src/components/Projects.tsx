@@ -18,10 +18,9 @@ const PROJECTS = [
   },
   {
     id: '02',
-    title: 'STELLAR APP',
-    video: '/videos/p2.mp4',
-    github: '#',
-    link: '#',
+    video: '/videos/cunaguaros.mp4',
+    github: 'https://github.com/alejandraCast18/portfolio#',
+    link: 'https://portfolio-cunaguarosdev.vercel.app/',
   },
   {
     id: '03',
@@ -36,7 +35,6 @@ export default function ProjectsSection() {
   const [index, setIndex] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
 
-  // Manejo de responsive seguro para Next.js
   useEffect(() => {
     const checkRes = () => setIsMobile(window.innerWidth < 768)
     checkRes() // Chequeo inicial
@@ -50,7 +48,6 @@ export default function ProjectsSection() {
 
   return (
     <div className='flex flex-col items-center w-full py-10 md:py-20'>
-      {/* Título Cyan Unicolor */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -65,14 +62,12 @@ export default function ProjectsSection() {
         </h2>
       </motion.div>
 
-      {/* Contenedor del Carrusel */}
       <div className='relative w-full h-80 md:h-137.5 flex items-center justify-center overflow-hidden md:overflow-visible'>
         <AnimatePresence mode='popLayout'>
           {PROJECTS.map((project, i) => {
             const position =
               i === index ? 0 : i === (index + 1) % PROJECTS.length ? 1 : -1
 
-            // En móvil solo renderizamos la activa para evitar scroll horizontal fantasma
             if (isMobile && position !== 0) return null
 
             return (
@@ -136,7 +131,6 @@ export default function ProjectsSection() {
           })}
         </AnimatePresence>
 
-        {/* Botones de Navegación Responsive */}
         <button
           onClick={prev}
           className='absolute left-2 md:left-10 z-50 p-2 text-cyan-400 bg-black/40 backdrop-blur-md rounded-full md:bg-transparent'
