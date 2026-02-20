@@ -8,6 +8,7 @@ import Contact from '@/components/Contact'
 import OrbitalNavbar from '@/components/OrbitalNavbar'
 import StackPhysics from '@/components/StackPhysics'
 import ProjectsSection from '@/components/Projects'
+import Footer from '@/components/Footer' // Importación añadida
 
 export default function Home() {
   useEffect(() => {
@@ -54,6 +55,9 @@ export default function Home() {
         <SectorWrapper id='contact' message='Terminal de comunicación lista...'>
           <Contact />
         </SectorWrapper>
+
+        {/* FOOTER FINAL */}
+        <Footer />
       </main>
     </>
   )
