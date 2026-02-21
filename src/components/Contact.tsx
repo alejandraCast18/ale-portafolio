@@ -1,119 +1,142 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { FiMail, FiMapPin, FiSend } from 'react-icons/fi'
+import { useState } from 'react'
 
 export default function Contact() {
+  const [copied, setCopied] = useState(false)
+
   const email = 'alejcast18@gmail.com'
-  const subject = encodeURIComponent(
-    'Propuesta de Proyecto - Colaboración con Ale',
-  )
-  const body = encodeURIComponent(
-    'Hola Alejandra,\n\nHe estado revisando tu portafolio y me interesa mucho tu perfil para un proyecto que tengo en mente. Me gustaría conocer más sobre tus servicios y disponibilidad.\n\nQuedo atento a tu respuesta.\n\nSaludos,',
-  )
+  const subject = 'Propuesta de Proyecto - Colaboración con Ale'
+  const body =
+    'Hola Alejandra,\n\nHe estado revisando tu portafolio y me interesa mucho tu perfil para un proyecto...'
 
-  const mailtoUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`
+  const handleContact = () => {
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    const newWindow = window.open(gmailUrl, '_blank')
 
-  const contactInfo = [
-    {
-      id: 1,
-      icon: <FiMail />,
-      label: 'Bandeja de entrada',
-      val: email,
-    },
-    {
-      id: 2,
-      icon: <FiMapPin />,
-      label: 'Coordenadas',
-      val: 'San Cristóbal, VZLA',
-    },
-  ]
+    if (
+      !newWindow ||
+      newWindow.closed ||
+      typeof newWindow.closed === 'undefined'
+    ) {
+      navigator.clipboard.writeText(email)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 3000)
+    }
+  }
+
+  const glowTitle =
+    'group-hover:text-cyan-400 group-hover:drop-shadow-[0_0_20px_rgba(34,211,238,0.8)] transition-all duration-700'
 
   return (
-    <section className='w-full py-16 md:py-24 px-6 relative flex items-center justify-center min-h-screen bg-transparent'>
-      <div className='max-w-5xl mx-auto text-center space-y-12 md:space-y-20 relative z-10 w-full'>
-        <div className='space-y-4'>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className='text-4xl md:text-8xl font-black text-white uppercase tracking-tighter leading-tight'
-          >
-            Inicia una{' '}
-            <span className='text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]'>
-              Colaboración
-            </span>
-          </motion.h2>
-        </div>
+    <section
+      id='contacto'
+      className='min-h-[90vh] w-full flex flex-col items-center pt-20 pb-10 px-6 relative overflow-hidden bg-transparent'
+    >
+      <style jsx>{`
+        @keyframes pulse-glow-contact {
+          0%,
+          100% {
+            text-shadow: 0 0 0px rgba(34, 211, 238, 0);
+            color: #71717a;
+          }
+          50% {
+            text-shadow: 0 0 15px rgba(34, 211, 238, 0.6);
+            color: #22d3ee;
+          }
+        }
+        .mobile-glow-contact {
+          animation: pulse-glow-contact 3s ease-in-out infinite;
+        }
+        @media (min-width: 768px) {
+          .mobile-glow-contact {
+            animation: none;
+          }
+        }
+      `}</style>
 
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 text-left w-full'>
-          {contactInfo.map((card) => (
-            <motion.div
-              key={card.id}
-              whileHover={{ y: -5 }}
-              className='relative group p-6 md:p-10 rounded-2xl bg-white/3 backdrop-blur-xl border border-white/10 overflow-hidden'
+      <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 md:w-150 h-80 bg-cyan-500/5 blur-[120px] rounded-full -z-10' />
+
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className='flex-1 w-full max-w-5xl mx-auto bg-transparent border border-white/10 rounded-[3rem] md:rounded-[4rem] flex flex-col justify-center items-center px-6 md:px-16 py-16 text-center relative overflow-hidden group hover:border-cyan-500/40 transition-all duration-1000 shadow-2xl'
+      >
+        <motion.div
+          animate={{ x: ['-100%', '100%'] }}
+          transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
+          className='absolute top-0 left-0 w-1/3 h-0.5 bg-linear-to-r from-transparent via-cyan-300 to-transparent shadow-[0_0_15px_rgba(34,211,238,1)]'
+        />
+
+        <motion.div
+          animate={{ y: ['-100%', '100%'] }}
+          transition={{
+            duration: 5,
+            repeat: Infinity,
+            ease: 'linear',
+            delay: 1,
+          }}
+          className='absolute top-0 right-0 h-1/3 w-0.5 bg-linear-to-b from-transparent via-cyan-300 to-transparent shadow-[0_0_15px_rgba(34,211,238,1)]'
+        />
+
+        <motion.div
+          animate={{ x: ['100%', '-100%'] }}
+          transition={{
+            duration: 5,
+            repeat: Infinity,
+            ease: 'linear',
+            delay: 2,
+          }}
+          className='absolute bottom-0 right-0 w-1/3 h-0.5 bg-linear-to-r from-transparent via-cyan-300 to-transparent shadow-[0_0_15px_rgba(34,211,238,1)]'
+        />
+
+        <motion.div
+          animate={{ y: ['100%', '-100%'] }}
+          transition={{
+            duration: 5,
+            repeat: Infinity,
+            ease: 'linear',
+            delay: 3,
+          }}
+          className='absolute top-0 left-0 h-1/3 w-0.5 bg-linear-to-b from-transparent via-cyan-300 to-transparent shadow-[0_0_15px_rgba(34,211,238,1)]'
+        />
+
+        <div className='absolute inset-0 bg-linear-to-r from-transparent via-cyan-500/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1500' />
+
+        <div className='relative z-10 w-full'>
+          <h2 className='text-3xl md:text-5xl lg:text-6xl font-black uppercase mb-6 md:mb-8 leading-none tracking-tighter text-white'>
+            VAMOS A CREAR ALGO <br />
+            <span
+              className={`text-zinc-500 italic block mt-1 mobile-glow-contact ${glowTitle}`}
             >
-              <motion.div
-                animate={{ x: ['-100%', '100%'] }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-                className='absolute top-0 left-0 w-1/2 h-px bg-linear-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_10px_cyan]'
-              />
-              <motion.div
-                animate={{ x: ['100%', '-100%'] }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: 'linear',
-                  delay: 1.5,
-                }}
-                className='absolute bottom-0 left-0 w-1/2 h-px bg-linear-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_10px_cyan]'
-              />
+              INCREÍBLE JUNTOS
+            </span>
+          </h2>
 
-              <div className='relative z-10'>
-                <div className='flex items-center gap-3 mb-4'>
-                  <div className='p-2 bg-cyan-500/10 rounded-lg text-cyan-400'>
-                    {card.icon}
-                  </div>
-                  <span className='text-[9px] font-mono text-cyan-400 uppercase tracking-[0.2em] font-bold'>
-                    {card.label}
-                  </span>
-                </div>
-                <p className='text-lg md:text-2xl text-white font-bold tracking-tight break-all md:break-normal'>
-                  {card.val}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+          <div className='flex flex-col md:flex-row justify-center items-center gap-6 md:gap-10'>
+            <button
+              onClick={handleContact}
+              className='w-full md:w-auto relative group/btn overflow-hidden border border-cyan-400/50 px-10 py-4 md:py-5 rounded-full font-black uppercase text-[10px] md:text-[11px] tracking-[0.2em] text-white transition-all hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(0,242,255,0.4)] cursor-pointer active:scale-95'
+            >
+              <span className='relative z-10 transition-colors duration-500'>
+                {copied ? 'EMAIL COPIADO' : 'Iniciar Conexión'}
+              </span>
+              <div className='absolute inset-0 bg-cyan-400/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500' />
+            </button>
 
-        <div className='flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 px-4'>
-          <motion.a
-            href={mailtoUrl}
-            target='_blank'
-            rel='noopener noreferrer'
-            className='relative group w-full md:w-auto px-10 py-5 bg-transparent border-x border-cyan-500/40 overflow-hidden text-center cursor-pointer'
-          >
-            <motion.span
-              animate={{ x: ['-100%', '100%'] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-              className='absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-cyan-400 to-transparent'
-            />
-            <motion.span
-              animate={{ x: ['100%', '-100%'] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-              className='absolute bottom-0 left-0 w-full h-px bg-linear-to-r from-transparent via-cyan-400 to-transparent'
-            />
-
-            <div className='flex items-center justify-center gap-4 text-cyan-400 group-hover:text-white transition-all'>
-              <FiSend size={18} />
-              <span className='font-black uppercase tracking-[0.3em] text-[10px] md:text-xs'>
-                Solicitar Servicios
+            <div className='flex flex-col items-center md:items-start text-center md:text-left'>
+              <span className='text-zinc-500 font-mono text-[8px] uppercase tracking-widest mb-1'>
+                Bandeja de entrada:
+              </span>
+              <span className='text-white font-bold text-sm md:text-base group-hover:text-cyan-400 transition-colors'>
+                {email}
               </span>
             </div>
-            <div className='absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity' />
-          </motion.a>
+          </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   )
 }

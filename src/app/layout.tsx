@@ -27,7 +27,6 @@ export default function RootLayout({
         className={`${inter.className} ${dancing.variable} bg-black text-white antialiased overflow-x-hidden m-0 p-0`}
       >
         <ThemeProvider>
-          {/* 🌌 Fondo galaxia */}
           <div className='fixed inset-0 z-0 pointer-events-none'>
             <SparklesCore
               minSize={0.6}
@@ -38,7 +37,6 @@ export default function RootLayout({
             />
           </div>
 
-          {/* 📦 Contenido */}
           <div className='relative z-10'>
             <main className='m-0 p-0'>{children}</main>
           </div>

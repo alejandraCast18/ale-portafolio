@@ -1,10 +1,11 @@
+'use client'
+
 import Image from 'next/image'
 import { Linkedin, Github } from 'lucide-react'
 
 const Footer = () => {
   return (
     <footer className='relative w-full py-20 overflow-hidden bg-transparent text-white'>
-      {/* --- LÍNEAS NEÓN CYAN (TOP & BOTTOM) --- */}
       <div className='absolute top-0 left-0 w-full h-0.5 bg-cyan-500 shadow-[0_0_20px_#06b6d4,0_0_40px_#06b6d4] opacity-70' />
       <div className='absolute bottom-0 left-0 w-full h-0.5 bg-cyan-500 shadow-[0_0_20px_#06b6d4,0_0_40px_#06b6d4] opacity-70' />
 
@@ -18,12 +19,24 @@ const Footer = () => {
         />
       </div>
 
+      <div className='absolute pointer-events-none animate-bounce-no-flip-2 opacity-80 z-0'>
+        <Image
+          src='/rabbit-astronaut2.png'
+          alt='Rabbit Astronaut 2'
+          width={65}
+          height={65}
+          className='object-contain drop-shadow-[0_0_15px_rgba(168,85,247,0.6)]'
+        />
+      </div>
+
       <div className='container mx-auto px-6 relative z-10 flex flex-col md:flex-row justify-between items-center gap-12'>
-        {/* Lado Izquierdo: CunaguarosDev con Brillo al Hover */}
         <div className='flex flex-col items-center md:items-start gap-4'>
-          <p className='text-zinc-400 text-sm tracking-wide transition-all'>
-            Si necesitas un equipo de desarrolladores profesional, <br />
-            puedes contactarnos en{' '}
+          <p className='text-zinc-400 text-sm md:text-base tracking-wide leading-relaxed max-w-xl text-center md:text-left'>
+            Si buscas una desarrolladora frontend para tu proyecto,
+            <br className='hidden md:block' />
+            puedo ayudarte. Y si necesitas un equipo completo,
+            <br className='hidden md:block' />
+            mi equipo y yo estamos listos en{' '}
             <span className='text-white font-bold cursor-pointer transition-all duration-300 hover:text-purple-400 hover:drop-shadow-[0_0_10px_#a855f7]'>
               CunaguarosDev
             </span>
@@ -46,7 +59,6 @@ const Footer = () => {
           </a>
         </div>
 
-        {/* Lado Derecho: Redes "Sígueme en" */}
         <div className='flex flex-col items-center md:items-end gap-3'>
           <span className='text-xs uppercase tracking-[0.4em] text-cyan-400 font-semibold drop-shadow-[0_0_8px_#06b6d4]'>
             Sígueme en
@@ -75,14 +87,12 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Copyright */}
       <div className='mt-16 text-center'>
         <p className='text-[10px] text-zinc-600 tracking-[0.4em] uppercase'>
           ©2026 — All rights reserved.
         </p>
       </div>
 
-      {/* ANIMACIONES CSS ACTUALIZADAS */}
       <style jsx global>{`
         @keyframes bounce-no-flip {
           0% {
@@ -111,6 +121,35 @@ const Footer = () => {
           width: 80px;
           height: 80px;
           animation: bounce-no-flip 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes bounce-no-flip-2 {
+          0% {
+            top: 70%;
+            left: 90%;
+          }
+          25% {
+            top: 20%;
+            left: 65%;
+          }
+          50% {
+            top: 75%;
+            left: 35%;
+          }
+          75% {
+            top: 25%;
+            left: 10%;
+          }
+          100% {
+            top: 70%;
+            left: 0%;
+          }
+        }
+
+        .animate-bounce-no-flip-2 {
+          width: 75px;
+          height: 75px;
+          animation: bounce-no-flip-2 18s ease-in-out infinite alternate;
         }
       `}</style>
     </footer>
