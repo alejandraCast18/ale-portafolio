@@ -14,6 +14,15 @@ const dancing = Dancing_Script({
 
 export const metadata: Metadata = {
   title: 'Ale Dev | Mi Portfolio',
+  icons: {
+    icon: [
+      {
+        url: '/icon.png',
+        sizes: '200x200',
+        type: 'image/png',
+      },
+    ],
+  },
 }
 
 export default function RootLayout({
