@@ -47,17 +47,18 @@ const technologies: Technology[] = [
 
 export default function StackPhysics() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const cardsRef = useRef<Array<HTMLDivElement | null>>(technologies.map(() => null))
+  const cardsRef = useRef<Array<HTMLDivElement | null>>(
+    technologies.map(() => null),
+  )
   const [dimensions, setDimensions] = useState({ width: 0, height: 400 })
-  
-  const isInView = useInView(containerRef, { once: true, margin: "-100px" })
+
+  const isInView = useInView(containerRef, { once: true, margin: '-100px' })
 
   useEffect(() => {
     if (!containerRef.current) return
     const resizeObserver = new ResizeObserver(() => {
       if (!containerRef.current) return
       const width = containerRef.current.offsetWidth
-      // Ajustamos altura para que tengan espacio de caer
       const height = window.innerWidth < 768 ? 350 : 450
       setDimensions({ width, height })
     })
@@ -73,35 +74,33 @@ export default function StackPhysics() {
 
     const cw = dimensions.width
     const ch = dimensions.height
-    
-    // Tamaños exactos para sincronizar Matter.js con el CSS
+
     const cardWidth = cw < 768 ? 80 : 160
     const cardHeight = cw < 768 ? 40 : 80
 
-    // Límites de la caja
     const ground = Bodies.rectangle(cw / 2, ch + 20, cw, 40, { isStatic: true })
     const ceiling = Bodies.rectangle(cw / 2, -20, cw, 40, { isStatic: true })
     const leftWall = Bodies.rectangle(-20, ch / 2, 40, ch, { isStatic: true })
-    const rightWall = Bodies.rectangle(cw + 20, ch / 2, 40, ch, { isStatic: true })
-    
+    const rightWall = Bodies.rectangle(cw + 20, ch / 2, 40, ch, {
+      isStatic: true,
+    })
+
     Composite.add(world, [ground, ceiling, leftWall, rightWall])
 
-    // CREACIÓN DE TODAS LAS FICHAS
     const bodies = technologies.map((_, i) => {
-      // Las posicionamos en abanico justo debajo del techo para que no se pierdan
       return Bodies.rectangle(
-        (cw / (technologies.length + 1)) * (i + 1), 
-        20, // Posición inicial Y: Justo debajo del techo
+        (cw / (technologies.length + 1)) * (i + 1),
+        20,
         cardWidth,
         cardHeight,
         {
           restitution: 0.5,
           friction: 0.1,
           chamfer: { radius: cw < 768 ? 8 : 12 },
-        }
+        },
       )
     })
-    
+
     Composite.add(world, bodies)
 
     const mouse = Mouse.create(containerRef.current) as ExtendedMouse
@@ -133,11 +132,17 @@ export default function StackPhysics() {
     <section className='relative z-10 py-12'>
       <div className='text-center mb-12 cursor-default group'>
         <h2 className='text-4xl md:text-7xl font-black tracking-tighter uppercase leading-tight'>
-          <span className='text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] 
-                           transition-all duration-300 group-hover:drop-shadow-[0_0_40px_rgba(34,211,238,1)]'>
+          <span
+            className='text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] 
+                           transition-all duration-300 group-hover:drop-shadow-[0_0_40px_rgba(34,211,238,1)]'
+          >
             Mis Herramientas
           </span>
         </h2>
+        {/* TEXTO AGREGADO */}
+        <p className='mt-4 text-cyan-400/60 font-mono text-[10px] md:text-xs tracking-[0.3em] uppercase animate-pulse'>
+          lanza las fichas o juega con ellas
+        </p>
       </div>
 
       <div
@@ -145,7 +150,6 @@ export default function StackPhysics() {
         className='relative w-full overflow-hidden mx-auto'
         style={{ height: dimensions.height, maxWidth: '1200px' }}
       >
-        {/* Renderizado forzado de todas las tecnologías */}
         {technologies.map((tech, i) => (
           <div
             key={tech.name}

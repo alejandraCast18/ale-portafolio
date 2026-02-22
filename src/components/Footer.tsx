@@ -2,30 +2,75 @@
 
 import Image from 'next/image'
 import { Linkedin, Github } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 
 const Footer = () => {
+  const [collision, setCollision] = useState(false)
+  const rabbit1Ref = useRef<HTMLDivElement>(null)
+  const rabbit2Ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const checkCollision = () => {
+      if (rabbit1Ref.current && rabbit2Ref.current) {
+        const rect1 = rabbit1Ref.current.getBoundingClientRect()
+        const rect2 = rabbit2Ref.current.getBoundingClientRect()
+
+        // Cálculo de cercanía para detectar el "choque"
+        const distance = Math.sqrt(
+          Math.pow(rect1.left - rect2.left, 2) + Math.pow(rect1.top - rect2.top, 2)
+        )
+
+        // Si están a menos de 80px, activamos el corazón
+        if (distance < 80) {
+          setCollision(true)
+        } else {
+          setCollision(false)
+        }
+      }
+    }
+
+    const interval = setInterval(checkCollision, 100)
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <footer className='relative w-full py-20 overflow-hidden bg-transparent text-white'>
       <div className='absolute top-0 left-0 w-full h-0.5 bg-cyan-500 shadow-[0_0_20px_#06b6d4,0_0_40px_#06b6d4] opacity-70' />
       <div className='absolute bottom-0 left-0 w-full h-0.5 bg-cyan-500 shadow-[0_0_20px_#06b6d4,0_0_40px_#06b6d4] opacity-70' />
 
-      <div className='absolute pointer-events-none animate-bounce-no-flip opacity-90 z-0'>
+      {/* EFECTO DE CORAZÓN / ILUMINACIÓN ROSADA */}
+      <div 
+        className={`absolute inset-0 pointer-events-none transition-opacity duration-500 flex items-center justify-center z-0 ${collision ? 'opacity-100' : 'opacity-0'}`}
+      >
+        <div className="w-64 h-64 bg-pink-500/20 rounded-full blur-[100px] animate-pulse" />
+        <span className="text-6xl animate-ping absolute">💖</span>
+      </div>
+
+      {/* CONEJO 1 */}
+      <div 
+        ref={rabbit1Ref}
+        className='absolute pointer-events-none animate-bounce-no-flip opacity-90 z-20'
+      >
         <Image
           src='/rabbit-astronaut1.png'
           alt='Rabbit Astronaut'
           width={70}
           height={70}
-          className='object-contain drop-shadow-[0_0_15px_rgba(6,182,212,0.6)]'
+          className={`object-contain transition-all duration-300 ${collision ? 'drop-shadow-[0_0_20px_#ff007f]' : 'drop-shadow-[0_0_15px_rgba(6,182,212,0.6)]'}`}
         />
       </div>
 
-      <div className='absolute pointer-events-none animate-bounce-no-flip-2 opacity-80 z-0'>
+      {/* CONEJO 2 */}
+      <div 
+        ref={rabbit2Ref}
+        className='absolute pointer-events-none animate-bounce-no-flip-2 opacity-80 z-20'
+      >
         <Image
           src='/rabbit-astronaut2.png'
           alt='Rabbit Astronaut 2'
           width={65}
           height={65}
-          className='object-contain drop-shadow-[0_0_15px_rgba(168,85,247,0.6)]'
+          className={`object-contain transition-all duration-300 ${collision ? 'drop-shadow-[0_0_20px_#ff007f]' : 'drop-shadow-[0_0_15px_rgba(168,85,247,0.6)]'}`}
         />
       </div>
 
@@ -95,26 +140,11 @@ const Footer = () => {
 
       <style jsx global>{`
         @keyframes bounce-no-flip {
-          0% {
-            top: 5%;
-            left: 0%;
-          }
-          25% {
-            top: 60%;
-            left: 25%;
-          }
-          50% {
-            top: 15%;
-            left: 50%;
-          }
-          75% {
-            top: 55%;
-            left: 75%;
-          }
-          100% {
-            top: 5%;
-            left: 92%;
-          }
+          0% { top: 5%; left: 0%; }
+          25% { top: 60%; left: 25%; }
+          50% { top: 15%; left: 50%; }
+          75% { top: 55%; left: 75%; }
+          100% { top: 5%; left: 92%; }
         }
 
         .animate-bounce-no-flip {
@@ -124,26 +154,11 @@ const Footer = () => {
         }
 
         @keyframes bounce-no-flip-2 {
-          0% {
-            top: 70%;
-            left: 90%;
-          }
-          25% {
-            top: 20%;
-            left: 65%;
-          }
-          50% {
-            top: 75%;
-            left: 35%;
-          }
-          75% {
-            top: 25%;
-            left: 10%;
-          }
-          100% {
-            top: 70%;
-            left: 0%;
-          }
+          0% { top: 70%; left: 90%; }
+          25% { top: 20%; left: 65%; }
+          50% { top: 75%; left: 35%; }
+          75% { top: 25%; left: 10%; }
+          100% { top: 70%; left: 0%; }
         }
 
         .animate-bounce-no-flip-2 {
