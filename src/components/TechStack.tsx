@@ -33,7 +33,6 @@ export default function StackPhysics() {
   )
   const [physicsStarted, setPhysicsStarted] = useState(false)
 
-  // Activar física con scroll
   useEffect(() => {
     if (!containerRef.current) return
     const observer = new IntersectionObserver(
@@ -65,7 +64,6 @@ export default function StackPhysics() {
     const cw = containerRef.current.offsetWidth
     const ch = containerRef.current.offsetHeight
 
-    // Suelo y paredes
     const ground = Bodies.rectangle(cw / 2, ch + 40, cw, 80, { isStatic: true })
     const leftWall = Bodies.rectangle(-40, ch / 2, 80, ch, { isStatic: true })
     const rightWall = Bodies.rectangle(cw + 40, ch / 2, 80, ch, {
@@ -73,11 +71,10 @@ export default function StackPhysics() {
     })
     Composite.add(world, [ground, leftWall, rightWall])
 
-    // Crear cuerpos, más arriba para que caigan naturalmente
     const bodies = technologies.map((_, i) =>
       Bodies.rectangle(
         Math.random() * (cw - 200) + 100,
-        -300 - i * 120, // empezar más arriba
+        -300 - i * 120,
         160,
         80,
         { restitution: 0.5, friction: 0.2, chamfer: { radius: 20 } },
@@ -85,7 +82,6 @@ export default function StackPhysics() {
     )
     Composite.add(world, bodies)
 
-    // Mouse
     const mouse = Mouse.create(containerRef.current)
     const mouseConstraint = MouseConstraint.create(engine, {
       mouse,
@@ -116,7 +112,6 @@ export default function StackPhysics() {
 
   return (
     <div className='relative z-10 mt-20'>
-      {/* Texto Animado */}
       <div className='text-center mb-16 relative z-20'>
         <span className='text-[10px] font-mono text-cyan-500 tracking-[0.5em] uppercase flex items-center justify-center gap-2'>
           <FaTools className='w-3 h-3 animate-bounce' /> Tech Stack
@@ -150,18 +145,17 @@ export default function StackPhysics() {
               ease: 'easeInOut',
               delay: 0.5,
             }}
-            className='text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-200 to-blue-500 italic drop-shadow-[0_0_8px_rgba(34,211,238,0.4)]'
+            className='text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-cyan-200 to-blue-500 italic drop-shadow-[0_0_8px_rgba(34,211,238,0.4)]'
           >
             & Lenguajes.
           </motion.span>
         </h2>
       </div>
 
-      {/* Contenedor de cards */}
       <div
         ref={containerRef}
-        className='relative w-full h-[600px] overflow-visible'
-        style={{ marginTop: '-50px' }} // separa un poco de título
+        className='relative w-full h-150 overflow-visible'
+        style={{ marginTop: '-50px' }}
       >
         {technologies.map((tech, i) => (
           <div
@@ -169,7 +163,7 @@ export default function StackPhysics() {
             ref={(el) => {
               cardsRef.current[i] = el
             }}
-            className='absolute w-[160px] h-[80px] flex flex-col items-center justify-center gap-2 
+            className='absolute w-40 h-20 flex flex-col items-center justify-center gap-2 
                        bg-zinc-900/80 backdrop-blur-lg 
                        border border-white/10 rounded-2xl shadow-2xl'
             style={{ left: 0, top: 0 }}

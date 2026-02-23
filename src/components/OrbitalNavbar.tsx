@@ -2,19 +2,31 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { Sun, Star } from 'lucide-react'
-import { useTheme } from '@/context/ThemeContext'
+import { Sun, Moon } from 'lucide-react'
 
-const navItems = [
-  { name: 'Inicio', path: 'home', icon: '🏠' },
-  { name: 'Sobre Mí', path: 'about', icon: '👤' },
-  { name: 'Proyectos', path: 'projects', icon: '🚀' },
-  { name: 'Contacto', path: 'contact', icon: '✉️' },
-]
+const navItemsData = {
+  es: [
+    { name: 'Inicio', path: 'home', icon: '🏠' },
+    { name: 'Sobre Mí', path: 'about', icon: '👤' },
+    { name: 'Proyectos', path: 'projects', icon: '🚀' },
+    { name: 'Contacto', path: 'contacto', icon: '✉️' },
+  ],
+  en: [
+    { name: 'Home', path: 'home', icon: '🏠' },
+    { name: 'About Me', path: 'about', icon: '👤' },
+    { name: 'Projects', path: 'projects', icon: '🚀' },
+    { name: 'Contact', path: 'contacto', icon: '✉️' },
+  ],
+}
 
 export default function OrbitalNavbar() {
-  const { isAmanecer } = useTheme()
   const [isOpen, setIsOpen] = useState(false)
+  const [lang, setLang] = useState<'es' | 'en'>('es')
+
+  useEffect(() => {
+    const browserLang = navigator.language.startsWith('en') ? 'en' : 'es'
+    requestAnimationFrame(() => setLang(browserLang))
+  }, [])
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -27,18 +39,16 @@ export default function OrbitalNavbar() {
   const handleNavigation = (targetId: string) => {
     setIsOpen(false)
     const element = document.getElementById(targetId)
-
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
-      const newPath = targetId === 'home' ? '/' : `/${targetId}`
-      window.history.pushState(null, '', newPath)
     }
   }
 
-  const radius = 100
+  const radius = 110
+  const navItems = navItemsData[lang]
 
   return (
-    <nav className='fixed bottom-10 right-10 z-100'>
+    <nav className='fixed bottom-10 right-10 z-50 select-none'>
       <div className='relative flex items-center justify-center'>
         <AnimatePresence>
           {isOpen &&
@@ -64,18 +74,15 @@ export default function OrbitalNavbar() {
                 >
                   <button
                     onClick={() => handleNavigation(item.path)}
-                    className={`group relative flex items-center justify-center w-12 h-12 rounded-full bg-slate-900 border transition-all cursor-pointer shadow-xl ${
-                      isAmanecer
-                        ? 'border-cyan-400/50 hover:border-pink-400 shadow-cyan-500/20'
-                        : 'border-violet-500/50 hover:border-violet-400 shadow-violet-500/20'
-                    }`}
+                    className='group relative flex items-center justify-center w-12 h-12 rounded-full bg-black/60 backdrop-blur-md border border-cyan-400/40 hover:border-cyan-400 transition-all duration-300 cursor-pointer shadow-[0_0_15px_rgba(34,211,238,0.25)] hover:shadow-[0_0_25px_rgba(34,211,238,0.4)]'
                   >
                     <span className='text-lg filter grayscale group-hover:grayscale-0 transition-all'>
                       {item.icon}
                     </span>
-                    <div className='absolute right-14 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none'>
-                      <div className='bg-slate-900 border border-white/10 px-3 py-1 rounded-lg shadow-2xl'>
-                        <p className='text-[10px] font-bold uppercase tracking-[0.2em] text-white whitespace-nowrap'>
+
+                    <div className='absolute right-14 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none select-none'>
+                      <div className='bg-black/80 backdrop-blur-md border border-cyan-400/30 px-3 py-1 rounded-lg shadow-[0_0_20px_rgba(34,211,238,0.2)]'>
+                        <p className='text-[10px] font-bold uppercase tracking-[0.3em] text-white whitespace-nowrap'>
                           {item.name}
                         </p>
                       </div>
@@ -88,48 +95,31 @@ export default function OrbitalNavbar() {
 
         <motion.button
           onClick={() => setIsOpen(!isOpen)}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className={`relative z-50 w-16 h-16 rounded-full bg-slate-950 flex items-center justify-center transition-all duration-1000 border-2 cursor-pointer ${
-            isAmanecer
-              ? 'border-cyan-400/50 shadow-[0_0_25px_rgba(34,211,238,0.4)]'
-              : 'border-violet-500/30 shadow-[0_0_20px_rgba(139,92,246,0.3)]'
-          }`}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.95 }}
+          className='relative z-50 w-16 h-16 rounded-full bg-black/70 backdrop-blur-lg flex items-center justify-center transition-all duration-500 border border-cyan-400/50 shadow-[0_0_25px_rgba(34,211,238,0.35)] hover:shadow-[0_0_35px_rgba(34,211,238,0.55)] cursor-pointer overflow-hidden'
         >
-          {/* ICONO DINÁMICO: Sol en modo claro, Estrella/Estrella-rellena en oscuro */}
           <motion.div
-            key={isAmanecer ? 'sun' : 'star'}
+            key={isOpen ? 'moon' : 'sun'}
             initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
             animate={{ rotate: 0, opacity: 1, scale: 1 }}
             transition={{ type: 'spring', stiffness: 200 }}
             className='relative z-10'
           >
-            {isAmanecer ? (
-              <Sun
-                size={32}
-                className='text-cyan-300'
-                fill='currentColor'
-                fillOpacity={0.2}
-              />
+            {isOpen ? (
+              <Moon size={28} className='text-cyan-300' strokeWidth={2} />
             ) : (
-              <Star
-                size={32}
-                className='text-violet-400'
-                fill={isOpen ? '#8b5cf6' : 'none'}
-                strokeWidth={1.5}
-              />
+              <Sun size={30} className='text-cyan-300' strokeWidth={1.5} />
             )}
           </motion.div>
 
           <motion.div
             animate={{
-              scale: [1, 1.4, 1],
-              opacity: isAmanecer ? [0.3, 0.6, 0.3] : [0.2, 0.5, 0.2],
+              scale: [1, 1.2, 1],
+              opacity: [0.25, 0.45, 0.25],
             }}
             transition={{ repeat: Infinity, duration: 4 }}
-            className={`absolute inset-0 rounded-full blur-xl ${
-              isAmanecer ? 'bg-cyan-500/20' : 'bg-violet-500/10'
-            }`}
+            className='absolute inset-0 rounded-full bg-cyan-500/20 blur-xl'
           />
         </motion.button>
       </div>

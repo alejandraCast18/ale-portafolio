@@ -51,8 +51,15 @@ export default function StackPhysics() {
     technologies.map(() => null),
   )
   const [dimensions, setDimensions] = useState({ width: 0, height: 400 })
+  const [lang, setLang] = useState<'es' | 'en'>('es')
 
   const isInView = useInView(containerRef, { once: true, margin: '-100px' })
+
+  // Detect browser language
+  useEffect(() => {
+    const browserLang = navigator.language.startsWith('en') ? 'en' : 'es'
+    requestAnimationFrame(() => setLang(browserLang))
+  }, [])
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -128,20 +135,26 @@ export default function StackPhysics() {
     }
   }, [dimensions, isInView])
 
+  const titleText = lang === 'es' ? 'Mis Herramientas' : 'My Tools'
+  const subtitleText =
+    lang === 'es'
+      ? 'lanza las fichas o juega con ellas'
+      : 'throw the cards or play with them'
+
   return (
-    <section className='relative z-10 py-12'>
+    <section className='relative z-10 py-12 select-none'>
       <div className='text-center mb-12 cursor-default group'>
         <h2 className='text-4xl md:text-7xl font-black tracking-tighter uppercase leading-tight'>
           <span
             className='text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] 
-                           transition-all duration-300 group-hover:drop-shadow-[0_0_40px_rgba(34,211,238,1)]'
+                           transition-all duration-300 group-hover:drop-shadow-[0_0_40px_rgba(34,211,238,1)]
+                           select-none'
           >
-            Mis Herramientas
+            {titleText}
           </span>
         </h2>
-        {/* TEXTO AGREGADO */}
-        <p className='mt-4 text-cyan-400/60 font-mono text-[10px] md:text-xs tracking-[0.3em] uppercase animate-pulse'>
-          lanza las fichas o juega con ellas
+        <p className='mt-4 text-cyan-400/60 font-mono text-[10px] md:text-xs tracking-[0.3em] uppercase animate-pulse select-none'>
+          {subtitleText}
         </p>
       </div>
 
@@ -163,7 +176,7 @@ export default function StackPhysics() {
                        w-20 h-10 md:w-40 md:h-20'
           >
             <tech.icon className={`text-lg md:text-3xl ${tech.color}`} />
-            <span className='font-bold text-[10px] md:text-xs text-white uppercase tracking-tighter'>
+            <span className='font-bold text-[10px] md:text-xs text-white uppercase tracking-tighter select-none'>
               {tech.name}
             </span>
           </div>

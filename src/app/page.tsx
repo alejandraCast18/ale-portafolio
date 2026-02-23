@@ -8,7 +8,7 @@ import Contact from '@/components/Contact'
 import OrbitalNavbar from '@/components/OrbitalNavbar'
 import StackPhysics from '@/components/StackPhysics'
 import ProjectsSection from '@/components/Projects'
-import Footer from '@/components/Footer' // Importación añadida
+import Footer from '@/components/Footer'
 
 export default function Home() {
   useEffect(() => {
@@ -22,41 +22,26 @@ export default function Home() {
     <>
       <OrbitalNavbar />
       <main className='relative z-10 bg-transparent m-0 p-0'>
-        {/* SECCIÓN INICIO */}
-        <SectorWrapper
-          id='home'
-          message='Secuencia de inicio completada. Bienvenida, Alejandra.'
-        >
+        <SectorWrapper id='home'>
           <Hero />
         </SectorWrapper>
 
-        {/* SECCIÓN SOBRE MÍ */}
-        <SectorWrapper id='about' message='Accediendo al perfil profesional...'>
+        <SectorWrapper id='about'>
           <About />
         </SectorWrapper>
 
-        {/* SECCIÓN STACK (FÍSICAS) */}
-        <SectorWrapper
-          id='stack'
-          message='Cargando motor de física Matter.js...'
-        >
+        <SectorWrapper id='stack'>
           <StackPhysics />
         </SectorWrapper>
 
-        {/* SECCIÓN PROYECTOS (CARRUSEL 3D) */}
-        <SectorWrapper
-          id='projects'
-          message='Escaneando misiones... Calidad óptima detectada.'
-        >
+        <SectorWrapper id='projects'>
           <ProjectsSection />
         </SectorWrapper>
 
-        {/* SECCIÓN CONTACTO */}
-        <SectorWrapper id='contact' message='Terminal de comunicación lista...'>
+        <SectorWrapper id='contact'>
           <Contact />
         </SectorWrapper>
 
-        {/* FOOTER FINAL */}
         <Footer />
       </main>
     </>

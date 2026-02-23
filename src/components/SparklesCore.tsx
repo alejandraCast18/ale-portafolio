@@ -37,10 +37,9 @@ export const SparklesCore: React.FC<SparklesProps> = ({
   const canvasSize = useRef({ w: 0, h: 0 })
   const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1
 
-  const REPULSE_RADIUS = 130 // Radio de alejamiento
+  const REPULSE_RADIUS = 130
   const REPULSE_STRENGTH = 0.5
 
-  // Tracking del mouse
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       mouse.current.x = e.clientX
@@ -88,11 +87,9 @@ export const SparklesCore: React.FC<SparklesProps> = ({
       ctx.clearRect(0, 0, canvasSize.current.w, canvasSize.current.h)
 
       circles.current.forEach((circle) => {
-        // Movimiento constante
         circle.x += circle.dx
         circle.y += circle.dy
 
-        // Efecto de repulsión
         const dxMouse = mouse.current.x - circle.x
         const dyMouse = mouse.current.y - circle.y
         const distance = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse)
@@ -110,7 +107,6 @@ export const SparklesCore: React.FC<SparklesProps> = ({
         ctx.fill()
         ctx.globalAlpha = 1
 
-        // Loop infinito por los bordes
         if (circle.x < -20) circle.x = canvasSize.current.w + 20
         if (circle.x > canvasSize.current.w + 20) circle.x = -20
         if (circle.y < -20) circle.y = canvasSize.current.h + 20

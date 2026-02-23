@@ -26,6 +26,7 @@ const PROJECTS = [
 export default function ProjectsSection() {
   const [index, setIndex] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
+  const [lang, setLang] = useState<'es' | 'en'>('es')
 
   useEffect(() => {
     const checkRes = () => setIsMobile(window.innerWidth < 768)
@@ -34,12 +35,19 @@ export default function ProjectsSection() {
     return () => window.removeEventListener('resize', checkRes)
   }, [])
 
+  useEffect(() => {
+    const browserLang = navigator.language.startsWith('en') ? 'en' : 'es'
+    requestAnimationFrame(() => setLang(browserLang))
+  }, [])
+
   const next = () => setIndex((prev) => (prev + 1) % PROJECTS.length)
   const prev = () =>
     setIndex((prev) => (prev - 1 + PROJECTS.length) % PROJECTS.length)
 
+  const titleText = lang === 'es' ? 'Mis Proyectos' : 'My Projects'
+
   return (
-    <div className='flex flex-col items-center w-full py-10 md:py-20'>
+    <div className='flex flex-col items-center w-full py-10 md:py-20 select-none'>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -50,9 +58,10 @@ export default function ProjectsSection() {
           <span
             className='text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]
                  transition-all duration-300
-                 group-hover:drop-shadow-[0_0_40px_rgba(34,211,238,1)]'
+                 group-hover:drop-shadow-[0_0_40px_rgba(34,211,238,1)]
+                 select-none'
           >
-            Misiones Ejecutadas
+            {titleText}
           </span>
         </h2>
       </motion.div>
@@ -92,7 +101,7 @@ export default function ProjectsSection() {
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className='absolute inset-0 bg-linear-to-t from-black/95 via-transparent to-transparent flex flex-col justify-end p-5 md:p-8'
+                    className='absolute inset-0 bg-linear-to-t from-black/95 via-transparent to-transparent flex flex-col justify-end p-5 md:p-8 select-none'
                   >
                     <h3 className='text-lg md:text-4xl font-bold text-white mb-2 md:mb-4'>
                       {project.title}

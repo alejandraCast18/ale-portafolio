@@ -4,15 +4,44 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import { Sun, Moon } from 'lucide-react'
 import { useTheme } from '@/context/ThemeContext'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function Hero() {
   const { isAmanecer, toggleAmanecer } = useTheme()
   const [hover, setHover] = useState(false)
+  const [blurScroll, setBlurScroll] = useState(false)
+
+  const userLang = typeof navigator !== 'undefined' ? navigator.language : 'es'
+  const isEnglish = userLang.startsWith('en')
+
+  const texts = {
+    welcome: {
+      en: 'Welcome to my Portfolio',
+      es: 'Bienvenido a mi Portafolio',
+    },
+    talent: { en: 'Innovation Talent', es: 'Talento de Innovación' },
+    frontend: {
+      en: 'Frontend Architecture',
+      es: 'Arquitectura Frontend',
+    },
+  }
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY
+      const scrollHeight = document.body.scrollHeight
+      const clientHeight = window.innerHeight
+      const atBottom = scrollTop + clientHeight >= scrollHeight - 10
+      setBlurScroll(atBottom)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
-    <div className='relative w-full min-h-screen flex items-center justify-center md:justify-end overflow-hidden bg-transparent font-sans px-4 md:px-0'>
-      {/* BOTÓN TEMA */}
+    <div
+      className={`relative w-full min-h-screen flex items-center justify-center md:justify-end overflow-hidden bg-transparent font-sans px-4 md:px-0 select-none`}
+    >
       <button
         onClick={toggleAmanecer}
         className='fixed top-5 right-5 md:top-6 md:right-6 z-50 mix-blend-difference hover:scale-110 transition-transform'
@@ -24,7 +53,6 @@ export default function Hero() {
         )}
       </button>
 
-      {/* PLANETA RESPONSIVE */}
       <div className='absolute left-0 top-0 h-full flex items-center pointer-events-none z-10'>
         <motion.div
           animate={{ rotate: 360 }}
@@ -41,7 +69,6 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* HUD PRINCIPAL CON EFECTO ILUMINACIÓN */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -51,13 +78,13 @@ export default function Hero() {
         <div
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
-          className='relative w-full max-w-[95vw] sm:max-w-md md:max-w-lg 
+          className={`relative w-full max-w-[95vw] sm:max-w-md md:max-w-lg 
                      p-6 sm:p-8 md:p-12
                      border rounded-2xl border-cyan-400/40
                      shadow-[0_0_40px_rgba(34,211,238,0.25)]
-                     overflow-hidden'
+                     overflow-hidden transition-all duration-500
+                     ${blurScroll ? 'blur-sm' : 'blur-0'}`}
         >
-          {/* ======== ANIMACIÓN DE ILUMINACIONES ======== */}
           <motion.div
             animate={{ x: ['-100%', '100%'] }}
             transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
@@ -94,7 +121,6 @@ export default function Hero() {
             className='absolute bottom-0 left-0 h-1/3 w-0.5 bg-linear-to-b from-transparent via-cyan-400 to-transparent shadow-[0_0_15px_rgba(34,211,238,1)]'
           />
 
-          {/* CONTENIDO DEL HERO */}
           <div className='relative z-20 text-center'>
             <h1
               className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight transition-all duration-300
@@ -124,7 +150,7 @@ export default function Hero() {
 
             <div className='mt-5 sm:mt-6 space-y-2'>
               <p className='text-[10px] sm:text-xs md:text-sm font-bold tracking-[0.4em] md:tracking-[0.5em] uppercase text-cyan-400'>
-                Frontend Architecture
+                {texts.frontend[isEnglish ? 'en' : 'es']}
               </p>
               <p className='text-sm sm:text-base md:text-lg font-black italic text-white/90'>
                 & Creative Engineering
@@ -140,14 +166,15 @@ export default function Hero() {
                             flex flex-col sm:flex-row justify-between items-center gap-2 
                             font-mono text-[8px] sm:text-[9px] md:text-[10px] text-cyan-400/60'
             >
-              <span>Bienvenido a mi Portafolio</span>
-              <span className='uppercase font-bold'>Talento de Innovación</span>
+              <span>{texts.welcome[isEnglish ? 'en' : 'es']}</span>
+              <span className='uppercase font-bold'>
+                {texts.talent[isEnglish ? 'en' : 'es']}
+              </span>
             </div>
           </div>
         </div>
       </motion.div>
 
-      {/* HORIZONTE */}
       <motion.div
         initial={{ y: 200 }}
         animate={{ y: 0 }}
