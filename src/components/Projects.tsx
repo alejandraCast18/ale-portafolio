@@ -28,6 +28,7 @@ export default function ProjectsSection() {
   const [isMobile, setIsMobile] = useState(false)
   const [lang, setLang] = useState<'es' | 'en'>('es')
 
+  // Detectar si es móvil
   useEffect(() => {
     const checkRes = () => setIsMobile(window.innerWidth < 768)
     checkRes()
@@ -35,9 +36,13 @@ export default function ProjectsSection() {
     return () => window.removeEventListener('resize', checkRes)
   }, [])
 
+  // Detectar idioma del navegador de manera segura
   useEffect(() => {
-    const browserLang = navigator.language.startsWith('en') ? 'en' : 'es'
-    requestAnimationFrame(() => setLang(browserLang))
+    if (typeof window !== 'undefined' && navigator) {
+      requestAnimationFrame(() => {
+        setLang(navigator.language.startsWith('en') ? 'en' : 'es')
+      })
+    }
   }, [])
 
   const next = () => setIndex((prev) => (prev + 1) % PROJECTS.length)
@@ -97,7 +102,7 @@ export default function ProjectsSection() {
                   className='w-full h-full object-cover'
                 />
 
-                {position === 0 && (
+                {position === 0 && project.title && (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}

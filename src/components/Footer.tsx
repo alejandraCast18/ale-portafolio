@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { Linkedin, Github } from 'lucide-react'
+import { Github, Linkedin } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 const messages = {

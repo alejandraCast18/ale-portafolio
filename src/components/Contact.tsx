@@ -1,45 +1,53 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import { useLanguage } from '@/hooks/useLanguage'
 
 export default function Contact() {
+  const { lang, mounted } = useLanguage()
+
   const [copied, setCopied] = useState(false)
-  const [lang, setLang] = useState<'es' | 'en'>('es')
   const [showNotification, setShowNotification] = useState(false)
+
   const email = 'alejcast18@gmail.com'
 
-  useEffect(() => {
-    const browserLang = navigator.language.startsWith('en') ? 'en' : 'es'
-    requestAnimationFrame(() => setLang(browserLang))
-  }, [])
+  // ✅ evita hydration issues
+  if (!mounted) return null
 
   const handleContact = () => {
     const subject =
       lang === 'es'
         ? 'Solicitud de Servicios de Desarrollo'
         : 'Development Services Request'
+
     const body =
       lang === 'es'
         ? `Hola Alejandra,\n\nMe gustaría solicitar tus servicios de desarrollo para mi proyecto. ¿Podemos coordinar una reunión para discutir los detalles?\n\nSaludos.`
         : `Hi Alejandra,\n\nI’d like to hire your services for a project. Can we schedule a meeting to discuss the details?\n\nBest regards.`
 
     setShowNotification(true)
+
     setTimeout(() => {
       setShowNotification(false)
+
       const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(
         subject,
       )}&body=${encodeURIComponent(body)}`
+
       window.open(gmailUrl, '_blank')
 
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
-    }, 1000)
+    }, 900)
   }
 
+  // ✅ textos dinámicos
   const titleMain =
     lang === 'es' ? 'VAMOS A CREAR ALGO' : 'LET’S CREATE SOMETHING'
+
   const titleSub = lang === 'es' ? 'INCREÍBLE JUNTOS' : 'AMAZING TOGETHER'
+
   const buttonText = copied
     ? lang === 'es'
       ? 'EMAIL COPIADO'
@@ -47,6 +55,7 @@ export default function Contact() {
     : lang === 'es'
       ? 'INICIAR CONEXIÓN'
       : 'START CONNECTION'
+
   const inboxLabel = lang === 'es' ? 'Bandeja de entrada:' : 'Inbox:'
 
   const glowTitle =
@@ -60,11 +69,13 @@ export default function Contact() {
       <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-125 md:w-250 h-125 bg-cyan-500/10 blur-[180px] rounded-full -z-10' />
 
       <div className='w-full max-w-6xl mx-auto bg-black/40 border border-white/10 rounded-[4rem] flex flex-col justify-center items-center px-6 md:px-16 py-16 md:py-20 text-center relative overflow-hidden group hover:border-cyan-500/60 hover:shadow-[0_0_60px_rgba(34,211,238,0.15)] transition-all duration-700'>
+        {/* líneas LED */}
         <motion.div
           animate={{ x: ['-100%', '100%'] }}
           transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
           className='absolute top-0 left-0 w-full h-0.5 bg-linear-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_20px_rgba(34,211,238,1)]'
         />
+
         <motion.div
           animate={{ y: ['-100%', '100%'] }}
           transition={{
@@ -75,6 +86,7 @@ export default function Contact() {
           }}
           className='absolute top-0 right-0 h-full w-0.5 bg-linear-to-b from-transparent via-cyan-400 to-transparent shadow-[0_0_20px_rgba(34,211,238,1)]'
         />
+
         <motion.div
           animate={{ x: ['100%', '-100%'] }}
           transition={{
@@ -85,6 +97,7 @@ export default function Contact() {
           }}
           className='absolute bottom-0 left-0 w-full h-0.5 bg-linear-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_20px_rgba(34,211,238,1)]'
         />
+
         <motion.div
           animate={{ y: ['100%', '-100%'] }}
           transition={{
@@ -98,7 +111,8 @@ export default function Contact() {
 
         <div className='relative z-10 w-full'>
           <h2 className='text-5xl md:text-7xl lg:text-8xl font-black uppercase mb-12 leading-[0.9] tracking-tighter text-white'>
-            {titleMain} <br />
+            {titleMain}
+            <br />
             <span className={`text-zinc-600 italic block mt-4 ${glowTitle}`}>
               {titleSub}
             </span>

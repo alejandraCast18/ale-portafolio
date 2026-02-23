@@ -10,9 +10,29 @@ export default function Hero() {
   const { isAmanecer, toggleAmanecer } = useTheme()
   const [hover, setHover] = useState(false)
   const [blurScroll, setBlurScroll] = useState(false)
+  const [isEnglish, setIsEnglish] = useState(true)
 
-  const userLang = typeof navigator !== 'undefined' ? navigator.language : 'es'
-  const isEnglish = userLang.startsWith('en')
+  // Detectar idioma de navegador de forma segura
+  useEffect(() => {
+    if (typeof navigator !== 'undefined') {
+      requestAnimationFrame(() => {
+        setIsEnglish(navigator.language.startsWith('en'))
+      })
+    }
+  }, [])
+
+  // Detectar scroll al final para aplicar blur
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY
+      const scrollHeight = document.body.scrollHeight
+      const clientHeight = window.innerHeight
+      const atBottom = scrollTop + clientHeight >= scrollHeight - 10
+      setBlurScroll(atBottom)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const texts = {
     welcome: {
@@ -26,22 +46,11 @@ export default function Hero() {
     },
   }
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY
-      const scrollHeight = document.body.scrollHeight
-      const clientHeight = window.innerHeight
-      const atBottom = scrollTop + clientHeight >= scrollHeight - 10
-      setBlurScroll(atBottom)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   return (
     <div
       className={`relative w-full min-h-screen flex items-center justify-center md:justify-end overflow-hidden bg-transparent font-sans px-4 md:px-0 select-none`}
     >
+      {/* Botón día/noche */}
       <button
         onClick={toggleAmanecer}
         className='fixed top-5 right-5 md:top-6 md:right-6 z-50 mix-blend-difference hover:scale-110 transition-transform'
@@ -53,6 +62,7 @@ export default function Hero() {
         )}
       </button>
 
+      {/* Imagen orbital */}
       <div className='absolute left-0 top-0 h-full flex items-center pointer-events-none z-10'>
         <motion.div
           animate={{ rotate: 360 }}
@@ -69,6 +79,7 @@ export default function Hero() {
         </motion.div>
       </div>
 
+      {/* Panel principal */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -85,6 +96,7 @@ export default function Hero() {
                      overflow-hidden transition-all duration-500
                      ${blurScroll ? 'blur-sm' : 'blur-0'}`}
         >
+          {/* Bordes animados */}
           <motion.div
             animate={{ x: ['-100%', '100%'] }}
             transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
@@ -121,6 +133,7 @@ export default function Hero() {
             className='absolute bottom-0 left-0 h-1/3 w-0.5 bg-linear-to-b from-transparent via-cyan-400 to-transparent shadow-[0_0_15px_rgba(34,211,238,1)]'
           />
 
+          {/* Contenido de texto */}
           <div className='relative z-20 text-center'>
             <h1
               className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight transition-all duration-300
@@ -175,6 +188,7 @@ export default function Hero() {
         </div>
       </motion.div>
 
+      {/* Horizonte */}
       <motion.div
         initial={{ y: 200 }}
         animate={{ y: 0 }}

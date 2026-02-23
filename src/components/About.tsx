@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { useLanguage } from '@/hooks/useLanguage'
 
 const sections = {
   es: [
@@ -23,7 +24,7 @@ const sections = {
       text: (
         <>
           Tu tiempo es valioso, y me alegra que lo hayas compartido conmigo.
-          Espero que disfrutes mi portafolio tanto como yo disfruto crearlo.{' '}
+          Espero que disfrutes mi portafolio tanto como yo disfruto crearlo{' '}
           <motion.span
             className='inline-block align-middle'
             animate={{ y: [0, -12, 0] }}
@@ -59,7 +60,7 @@ const sections = {
       text: (
         <>
           Your time is valuable, and I’m glad you shared it with me. I hope you
-          enjoy my portfolio as much as I enjoy creating it.{' '}
+          enjoy my portfolio as much as I enjoy creating it{' '}
           <motion.span
             className='inline-block align-middle'
             animate={{ y: [0, -12, 0] }}
@@ -80,19 +81,16 @@ const sections = {
 }
 
 export default function About() {
-  const [lang, setLang] = useState<'es' | 'en'>('es')
+  const { lang, mounted } = useLanguage()
+
   const [sectionIndex, setSectionIndex] = useState(0)
   const [typedTitle, setTypedTitle] = useState('')
 
-  useEffect(() => {
-    const browserLang = navigator.language.startsWith('en') ? 'en' : 'es'
-    requestAnimationFrame(() => setLang(browserLang))
-  }, [])
-
   const currentSections = sections[lang]
+  const currentTitle = currentSections[sectionIndex].title
 
+  // ✅ Hook SIEMPRE antes del return
   useEffect(() => {
-    const currentTitle = currentSections[sectionIndex].title
     let timeout: NodeJS.Timeout
 
     if (typedTitle.length < currentTitle.length) {
@@ -107,11 +105,15 @@ export default function About() {
     }
 
     return () => clearTimeout(timeout)
-  }, [typedTitle, sectionIndex, currentSections])
+  }, [typedTitle, currentTitle, currentSections.length])
+
+  // ✅ guard clause DESPUÉS de hooks
+  if (!mounted) return null
 
   return (
     <section className='relative w-full min-h-screen py-20 px-6 overflow-hidden select-none'>
       <div className='max-w-7xl mx-auto flex flex-col md:flex-row justify-center items-center gap-16 relative'>
+        {/* FOTO */}
         <motion.div
           className='z-20 w-64 md:w-80 h-96 md:h-128 cursor-pointer overflow-hidden rounded-xl border border-cyan-500/30'
           animate={{ y: [0, -15, 0] }}
@@ -134,6 +136,7 @@ export default function About() {
           </motion.div>
         </motion.div>
 
+        {/* PANEL */}
         <motion.div
           initial={{ opacity: 0, x: -120, scale: 0.9 }}
           whileInView={{ opacity: 1, x: 0, scale: 1 }}
@@ -142,22 +145,6 @@ export default function About() {
           className='relative'
         >
           <div className='relative w-[80vw] md:w-[40vw] h-full p-10 bg-transparent border border-cyan-400/20 shadow-[0_0_40px_rgba(34,211,238,0.25)] overflow-hidden rounded-xl'>
-            <motion.div
-              animate={{ x: ['-100%', '100%'] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-              className='absolute top-0 left-0 w-1/3 h-0.5 bg-linear-to-r from-transparent via-cyan-300 to-transparent shadow-[0_0_15px_rgba(34,211,238,1)]'
-            />
-            <motion.div
-              animate={{ y: ['-100%', '100%'] }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: 'linear',
-                delay: 0.75,
-              }}
-              className='absolute top-0 right-0 h-1/3 w-0.5 bg-linear-to-b from-transparent via-cyan-300 to-transparent shadow-[0_0_15px_rgba(34,211,238,1)]'
-            />
-
             <div className='relative z-10 space-y-6'>
               {currentSections.map((section, i) => (
                 <div key={i}>

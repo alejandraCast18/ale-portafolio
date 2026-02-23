@@ -23,11 +23,16 @@ export default function OrbitalNavbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [lang, setLang] = useState<'es' | 'en'>('es')
 
+  // Detectar idioma del navegador de forma segura
   useEffect(() => {
-    const browserLang = navigator.language.startsWith('en') ? 'en' : 'es'
-    requestAnimationFrame(() => setLang(browserLang))
+    if (typeof navigator !== 'undefined') {
+      requestAnimationFrame(() => {
+        setLang(navigator.language.startsWith('en') ? 'en' : 'es')
+      })
+    }
   }, [])
 
+  // Cerrar menú con ESC
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setIsOpen(false)
